@@ -1,32 +1,50 @@
-# Final Project Report: SpendWise Tracker
+# 💰 SpendWise Tracker - InternNova Capstone Project
 
-## 📄 Project Metadata
-*   **Project Title:** SpendWise Tracker Dashboard
-*   **GitHub Repository Link:** https://github.com
-*   **Live Website Link:** https://github.io
+### 🔗 Quick Resource Access Links
+*   **GitHub Repository Link:** https://github.com/Saiganesh2418/Spendwise-Internnova-Final-Project
+*   **Live Web Deployment Link:** https://saiganesh2418.github.io/Spendwise-Internnova-Final-Project/
 
 ---
 
-## 🎯 Project Objective & Overview
-The objective of this project is to develop a highly interactive, responsive, and user-centric financial management web application. SpendWise Tracker is engineered to help individuals track their personal cash flows systematically. The platform enables users to log multiple income sources and daily transactional outlays, providing real-time financial insights. By automating mathematical balance calculations, the application removes manual bookkeeping friction, promotes healthy saving behaviors, and presents complex budget summaries through an elegant, intuitive UI.
+## 📁 Repository Structure & Organization (Task 2)
+```text
+spendwise/
+│
+├── assets/             # Project interface screenshots & graphics
+│   ├── screenshot1.png # Desktop UI View
+│   ├── screenshot2.png # Mobile Responsive Breakpoint View
+│   ├── screenshot3.png # Transaction Adding Flow
+│   └── screenshot4.png # Dynamic Deletion Interactivity Test
+│
+├── index.html          # Semantic HTML5 content layout (Task 3)
+├── style.css           # Grid, Flexbox, & Media Queries styling (Task 3)
+├── script.js          # JS tracking logic, CRUD actions, & events (Task 4)
+└── README.md           # Fulfills Task 2, Task 5, & Task 6 Documentation
+```
 
-## 💻 Technologies Used
-*   **Structure:** Semantic HTML5 elements (`<header>`, `<main>`, `<section>`, `<select>`) ensuring high accessibility standards and native form validations.
-*   **Styling & Design:** Advanced CSS3 layout structures utilizing **CSS Grid** for main dashboard metric displays, **CSS Flexbox** for component data layout distribution, and **Media Queries** for fluid device presentation.
-*   **Interactivity:** Vanilla JavaScript (ES6+) for running runtime state calculations, array tracking mutations, dynamic DOM updates, and custom input formatting filters.
-*   **Version Control:** Git command-line interfaces paired with GitHub public repository pipelines.
+---
 
-## ✨ Main Features
-1.  **Dynamic Calculations Dashboard:** Computes structural balance totals interactively out of an internal array list, refreshing metric card figures instantly.
-2.  **Comprehensive Form Data Validation:** Restricts invalid text types and forces strict positive numbers for inputs before executing application arithmetic.
-3.  **Interactive Action Row Deletions:** Connects target buttons directly to programmatic filter methods, removing entries cleanly without page refreshes.
-4.  **Fluid Breakpoint System:** Utilizes responsive rules collapsing three-column grid patterns down to stacked smartphone views seamlessly.
+## 📸 Website System Screenshots (Task 6 Evaluation)
 
-## 🧠 Challenges Faced & Solutions Implemented
-*   *Data Type Concatenation:* Captured numeric input items initially parsed as raw string inputs, which caused budget calculators to concatenate values together (e.g., `1000 + 500 = 1000500`) instead of doing proper math. To resolve this, I implemented explicit `parseFloat()` conversion wrappers directly across calculation data processing blocks.
-*   *Platform Terminal Discrepancies:* The local terminal environment logged operating system line warning updates during command operations. I handled this efficiently by organizing standard command parameters that stabilized file layouts cleanly across the server.
+### 🖥️ 1. Main Dashboard View (Desktop)
+![SpendWise Desktop Interface](assets/screenshot1.png)
 
-## 🎓 Key Learnings & Future Improvements
-This internship capstone project successfully reinforced my understanding of semantic formatting, structuring global tracking variables cleanly inside modern web interfaces, and maintaining organized repository project branches via terminal lines. 
+### 📱 2. Fluid Layout System Breakpoint
+![SpendWise Desktop Layout](assets/screenshot2.png)
 
-Future application iterations will utilize the `localStorage` browser API to allow financial log states to save permanently between device browser sessions. Additionally, I plan to integrate dynamic chart graphics visualizing spending categories through clean visual diagrams.
+### ✍️ 3. Transaction Ledger
+![Transaction Ledger](assets/screenshot3.png)
+
+### 🗑️ 4. Analytics
+![Analytics](assets/screenshot4.png)
+
+---
+
+## 📄 Final Project Documentation & Reflection Report (Task 6)
+
+SpendWise Tracker is an interactive personal finance management web application designed to help users track cash flows, log incomes and expenses, and view real-time balance calculations. 
+
+### 💻 Technologies & Features
+*   **HTML5/CSS3:** Utilizes semantic elements, CSS Grid, Flexbox, and Media Queries for full responsiveness.
+*   **JavaScript:** Vanilla ES6+ handles dynamic DOM updates, form validations, array tracking, and interactive row deletions.
+*   **Challenges & Learnings:** Addressed input data type concatenation by implementing `parseFloat()` conversion. Future updates will introduce `localStorage` support and chart visualizations.
