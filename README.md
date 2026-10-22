@@ -1,4 +1,4 @@
-# 💰 SpendWise Tracker - InternNova Capstone Project
+# 💰 SpendWise Tracker - InternNova Final Project
 
 ### 🔗 Quick Resource Access Links
 *   **GitHub Repository Link:** https://github.com/Saiganesh2418/Spendwise-Internnova-Final-Project
