@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpendWise — Personal Finance Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GLOBAL STICKY HEADER NAVIGATION
+  ═══════════════════════════════════════════════════════════ -->
+  <header class="navbar">
+    <div class="navbar-brand">
+      <span class="brand-spend">Spend</span><span class="brand-wise">Wise</span>
+      <span class="brand-tag">Personal Finance</span>
+    </div>
+    <nav class="navbar-nav">
+      <button class="nav-btn active" data-target="page-dashboard">
+        <span class="nav-icon">⬡</span> Dashboard
+      </button>
+      <button class="nav-btn" data-target="page-transactions">
+        <span class="nav-icon">⇄</span> Transactions
+      </button>
+      <button class="nav-btn" data-target="page-analytics">
+        <span class="nav-icon">◈</span> Analytics
+      </button>
+    </nav>
+    <div class="navbar-meta">
+      <span class="meta-date" id="header-date"></span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VIEW 1 — CORE SUMMARY DASHBOARD
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="page-dashboard" class="page-view">
+
+    <div class="page-header">
+      <h1 class="page-title">Financial Overview</h1>
+      <p class="page-subtitle">Track your income, spending & net position in real-time.</p>
+    </div>
+
+    <!-- Summary Stat Cards -->
+    <div class="summary-grid">
+      <div class="stat-card stat-balance">
+        <div class="stat-label">Net Balance</div>
+        <div class="stat-value" id="stat-balance">$0.00</div>
+        <div class="stat-trend" id="stat-balance-trend"></div>
+      </div>
+      <div class="stat-card stat-income">
+        <div class="stat-label">Total Income</div>
+        <div class="stat-value income-value" id="stat-income">+$0.00</div>
+        <div class="stat-badge income-badge">● INCOME</div>
+      </div>
+      <div class="stat-card stat-expense">
+        <div class="stat-label">Total Expenses</div>
+        <div class="stat-value expense-value" id="stat-expense">-$0.00</div>
+        <div class="stat-badge expense-badge">● EXPENSES</div>
+      </div>
+    </div>
+
+    <!-- Main Two-Column Layout -->
+    <div class="dashboard-main">
+
+      <!-- LEFT: Entry Form -->
+      <div class="card form-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="card-icon">＋</span> New Transaction
+          </h2>
+          <p class="card-subtitle">Add a new income or expense entry</p>
+        </div>
+
+        <form id="transaction-form" class="transaction-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="tx-desc">Description</label>
+            <input
+              type="text"
+              id="tx-desc"
+              class="form-input"
+              placeholder="e.g. Monthly salary, Netflix subscription…"
+              maxlength="80"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="tx-amount">Amount (₹ INR)</label>
+              <input
+                type="number"
+                id="tx-amount"
+                class="form-input"
+                placeholder="e.g. 5000"
+                min="0.01"
+                step="0.01"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tx-type">Type</label>
+              <select id="tx-type" class="form-select">
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="tx-category">Category</label>
+            <select id="tx-category" class="form-select">
+              <option value="Salary">💼 Salary</option>
+              <option value="Food">🍜 Food</option>
+              <option value="Rent">🏠 Rent</option>
+              <option value="Entertainment">🎬 Entertainment</option>
+              <option value="Transport">🚌 Transport</option>
+              <option value="Health">⚕️ Health</option>
+              <option value="Shopping">🛍️ Shopping</option>
+              <option value="Other">📦 Other</option>
+            </select>
+          </div>
+
+          <div id="form-error" class="form-error hidden"></div>
+
+          <button type="submit" class="btn-primary">
+            <span>Add Transaction</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: Recent History -->
+      <div class="card history-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="card-icon">◎</span> Recent History
+          </h2>
+          <p class="card-subtitle">Last 4 transactions</p>
+        </div>
+
+        <ul id="recent-list" class="tx-list recent-list">
+          <!-- Populated by JS -->
+        </ul>
+
+        <div class="history-empty hidden" id="recent-empty">
+          <div class="empty-icon">◌</div>
+          <p>No transactions yet. Add your first entry above.</p>
+        </div>
+
+        <div class="card-footer">
+          <button class="link-btn" data-target="page-transactions">
+            View full ledger →
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VIEW 2 — ADVANCED TRANSACTION LEDGER
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="page-transactions" class="page-view hidden">
+
+    <div class="page-header">
+      <h1 class="page-title">Transaction Ledger</h1>
+      <p class="page-subtitle">Complete record of all your financial activity.</p>
+    </div>
+
+    <!-- Filter Deck -->
+    <div class="card filter-deck">
+      <div class="filter-group">
+        <span class="filter-icon">⌕</span>
+        <input
+          type="text"
+          id="filter-search"
+          class="form-input filter-input"
+          placeholder="Search by description…"
+        />
+      </div>
+      <div class="filter-group">
+        <span class="filter-icon">◧</span>
+        <select id="filter-category" class="form-select filter-select">
+          <option value="">All Categories</option>
+          <option value="Salary">Salary</option>
+          <option value="Food">Food</option>
+          <option value="Rent">Rent</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Transport">Transport</option>
+          <option value="Health">Health</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-icon">◧</span>
+        <select id="filter-type" class="form-select filter-select">
+          <option value="">All Types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+      </div>
+      <div class="filter-stats">
+        <span id="filter-count" class="filter-count">0 records</span>
+      </div>
+    </div>
+
+    <!-- Full Ledger List -->
+    <div class="card ledger-card">
+      <ul id="ledger-list" class="tx-list ledger-list">
+        <!-- Populated by JS -->
+      </ul>
+      <div class="history-empty hidden" id="ledger-empty">
+        <div class="empty-icon">◌</div>
+        <p>No matching transactions found.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VIEW 3 — ANALYTICS & CAPITAL ALLOCATION
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="page-analytics" class="page-view hidden">
+
+    <div class="page-header">
+      <h1 class="page-title">Analytics</h1>
+      <p class="page-subtitle">Category-level cost allocation and spending ratios.</p>
+    </div>
+
+    <!-- Quick KPIs Row -->
+    <div class="analytics-kpis">
+      <div class="kpi-card">
+        <div class="kpi-label">Savings Rate</div>
+        <div class="kpi-value" id="kpi-savings-rate">0%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Largest Expense</div>
+        <div class="kpi-value expense-value" id="kpi-largest-expense">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Top Income Source</div>
+        <div class="kpi-value income-value" id="kpi-top-income">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Total Transactions</div>
+        <div class="kpi-value" id="kpi-tx-count">0</div>
+      </div>
+    </div>
+
+    <!-- Spending Breakdown Bars -->
+    <div class="analytics-row">
+      <div class="card breakdown-card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="card-icon">◈</span> Expense Allocation by Category</h2>
+          <p class="card-subtitle">Proportional breakdown of where money is going</p>
+        </div>
+        <div id="expense-bars" class="breakdown-bars">
+          <!-- Populated by JS -->
+        </div>
+        <div class="history-empty hidden" id="expense-bars-empty">
+          <div class="empty-icon">◌</div>
+          <p>No expense data to display yet.</p>
+        </div>
+      </div>
+
+      <div class="card breakdown-card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="card-icon">◈</span> Income Allocation by Category</h2>
+          <p class="card-subtitle">Proportional breakdown of income sources</p>
+        </div>
+        <div id="income-bars" class="breakdown-bars">
+          <!-- Populated by JS -->
+        </div>
+        <div class="history-empty hidden" id="income-bars-empty">
+          <div class="empty-icon">◌</div>
+          <p>No income data to display yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Summary Table -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><span class="card-icon">≡</span> Transaction Summary</h2>
+        <p class="card-subtitle">Aggregated financial health overview</p>
+      </div>
+      <div class="summary-table-wrap">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Income</th>
+              <th>Expenses</th>
+              <th>Net</th>
+            </tr>
+          </thead>
+          <tbody id="summary-table-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
